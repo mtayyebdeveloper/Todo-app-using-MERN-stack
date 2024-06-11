@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+  import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema(
@@ -19,6 +19,9 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    avatar: {
+      type: String,
+    },
     password: {
       type: String,
       required: true,
@@ -31,31 +34,31 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", async function (req, res, next) {
+userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
 
   try {
     const saltround = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(this.password, saltround);
+    const hashedPassword =await bcrypt.hash(this.password, saltround);
     this.password = hashedPassword;
   } catch (error) {
     next(error);
   }
 });
 
-userSchema.methods.comparePassword = async function (userPassword) {
+userSchema.methods.comparePassword = async function (userPassword, next) {
   try {
     return await bcrypt.compare(userPassword, this.password);
   } catch (error) {
-    console.error(error);
+    next(error);
   }
 };
 
-userSchema.methods.genarateToken = async function () {
+userSchema.methods.genarateToken = async function (next) {
   try {
-    return await jwt.sign(
+    return jwt.sign(
       {
         userID: this._id.toString(),
         email: this.email,
@@ -67,7 +70,7 @@ userSchema.methods.genarateToken = async function () {
       }
     );
   } catch (error) {
-    console.error(error);
+    next(error);
   }
 };
 

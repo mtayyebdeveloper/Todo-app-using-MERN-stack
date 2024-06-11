@@ -9,7 +9,6 @@ const todoSchema = new mongoose.Schema(
     username: {
       type: String,
       required: true,
-      lowercase: true,
     },
     email: {
       type: String,
@@ -23,10 +22,10 @@ const todoSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    creator: {
+    auther:{
       type:mongoose.Schema.Types.ObjectId,
-      ref:"User"
-    }
+      ref:"User",
+    },
   },
   { timestamps: true }
 );

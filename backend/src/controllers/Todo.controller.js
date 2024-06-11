@@ -10,6 +10,7 @@ const FormController = async (req, res, next) => {
       email,
       password,
       massage,
+      auther: req.user._id,
     });
 
     if (!tododata) {
@@ -27,7 +28,8 @@ const FormController = async (req, res, next) => {
 
 const TodoDataController = async (req, res, next) => {
   try {
-    const data = await Todo.find();
+    const user = req.user._id;
+    const data = await Todo.find({ auther: user });
 
     if (!data) {
       return res.status(201).json({ message: "Todo data not found." });
@@ -42,15 +44,35 @@ const TodoDataController = async (req, res, next) => {
   }
 };
 
-const DeleteTodoController = async (req, res, next) => {
+const getTodoController = async (req, res, next) => {
+  const _id = req.params.id;
   try {
-    const { id } = req.params;
-
-    if (!id) {
-      return res.status(201).json({ message: "Todo not found." });
+    const todo = await Todo.findOne({ _id });
+    if (!todo) {
+      return res.status(201).json({ message: "todo not found." });
     }
 
-    await Todo.deleteOne({ _id: id });
+    return res.status(200).json({
+      message: "todo found successfuly.",
+      todo,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const DeleteTodoController = async (req, res, next) => {
+  const _id = req.params.id;
+
+  try {
+    // if (!_id) {
+    //   return res.status(201).json({ message: "id not found." });
+    // }
+    const todo = await Todo.findOne({ _id });
+    if (!todo) {
+      return res.status(201).json({ message: "todo not found." });
+    }
+    await Todo.deleteOne({ _id });
 
     return res.status(200).json({ message: "Todo deleted successfuly." });
   } catch (error) {
@@ -59,14 +81,17 @@ const DeleteTodoController = async (req, res, next) => {
 };
 
 const UpdateTodoController = async (req, res, next) => {
+  const _id = req.params.id;
+  const { workspaceName, username, email, password, massage } = req.body;
+
   try {
-    const _id = req.params.id;
-    const { workspaceName, username, email, password, massage } = req.body;
-
-    if (!_id) {
-      return res.status(201).json({ message: "Todo not found." });
+    // if (!_id) {
+    //   return res.status(201).json({ message: "todo not found." });
+    // }
+    const findtodo = await Todo.findOne({ _id });
+    if (!findtodo) {
+      return res.status(201).json({ message: "todo not found." });
     }
-
     const todo = await Todo.updateOne(
       { _id },
       {
@@ -89,4 +114,5 @@ export {
   TodoDataController,
   DeleteTodoController,
   UpdateTodoController,
+  getTodoController,
 };

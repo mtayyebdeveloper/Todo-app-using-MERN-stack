@@ -2,24 +2,20 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
 const JWTverificationMiddleware = async (req, res, next) => {
-  const token = req.header("Authorization");
+  const token = req.headers["authorization"]?.split(" ")[1];
   
   if (!token) {
     return res.status(401).json({ message: "Token not found." });
   }
-  
-  const jwttoken = token.replace("token", "").trim();
-  console.log(jwttoken);
-  
+
   try {
-    console.log(process.env.JWT_TOKEN);
-    const user = jwt.verify(jwttoken,process.env.JWT_TOKEN);
+    const user = jwt.verify(token,process.env.JWT_TOKEN);
 
     if(!user) {
       return res.status(401).json({ message: "invalid token" });
     }
 
-    const userdata = await User.find({ email: user.email });
+    const userdata = await User.findOne({ email: user.email });
 
     req.user = userdata;
     req.userID = userdata._id.toString();

@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.active{
+    @apply bg-blue-700 text-white md:underline
+}
+
+.custom-toast-icon .Toastify__toast-icon {
+    font-size: 16px; /* Icon size set karne ke liye apni desired size use karein */
+}
