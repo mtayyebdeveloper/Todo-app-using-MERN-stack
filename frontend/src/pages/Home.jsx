@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 function Home() {
   const token = localStorage.getItem("token");
   const [openeye, setopeneye] = useState(false);
-  const { alltodoes, deleteTodo, getAllTodo, getUserData } = useAuth();
+  const { alltodoes, deleteTodo, getAllTodo, getUserData,API } = useAuth();
   const [todoId, settodoId] = useState("");
   const [workspaceName, setWorkspaceName] = useState("");
   const [username, setUsername] = useState("");
@@ -25,7 +25,7 @@ function Home() {
     if (todoId == "") {
       axios
         .post(
-          `${window.location.origin}/api/todo/create`,
+          `${API}/api/todo/create`,
           {
             workspaceName,
             username,
@@ -59,7 +59,7 @@ function Home() {
     } else {
       axios
         .patch(
-          `${window.location.origin}/api/todo/update/${todoId}`,
+          `${API}/api/todo/update/${todoId}`,
           {
             workspaceName,
             username,
@@ -96,7 +96,7 @@ function Home() {
   const editTodo = (id) => {
     settodoId(id);
     axios
-      .get(`${window.location.origin}/api/todo/todo/${id}`, {
+      .get(`${API}/api/todo/todo/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${token}`,

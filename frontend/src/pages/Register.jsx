@@ -2,9 +2,11 @@ import axios from "axios";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from "../store/Store";
 
 function Register() {
   const navigate = useNavigate();
+  const { API } = useAuth();
   const [openeye, setopeneye] = useState(false);
   const [fullName, setfullName] = useState("");
   const [username, setusername] = useState("");
@@ -24,7 +26,7 @@ function Register() {
 
     axios
       .post(
-        `${window.location.origin}/api/auth/register`,
+        `${API}/api/auth/register`,
         formData
       )
       .then((message) => {

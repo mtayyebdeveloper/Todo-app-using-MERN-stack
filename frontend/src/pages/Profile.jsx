@@ -6,7 +6,7 @@ import axios from "axios";
 
 function Profile() {
   const token = localStorage.getItem("token");
-  const { userData, getUserData } = useAuth();
+  const { userData, getUserData,API } = useAuth();
   const [openeye, setopeneye] = useState(false);
   const [fullName, setfullName] = useState("");
   const [username, setusername] = useState("");
@@ -26,7 +26,7 @@ function Profile() {
 
     axios
       .patch(
-        `${window.location.origin}/api/auth/update`,
+        `${API}/api/auth/update`,
         formdata,
         {
           headers: {

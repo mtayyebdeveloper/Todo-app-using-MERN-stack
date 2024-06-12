@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function Admin_todos() {
-  const { adminalltodos, deleteTodosfromAdmin,getalltodosForAdmin } = useAuth();
+  const { adminalltodos, deleteTodosfromAdmin,getalltodosForAdmin,API } = useAuth();
   const token = localStorage.getItem("token");
   const [open, setopen] = useState(false);
   const [todoId, settodoId] = useState("");
@@ -18,7 +18,7 @@ function Admin_todos() {
     e.preventDefault();
     axios
       .patch(
-        `${window.location.origin}/api/admin/updatetodo/${todoId}`,
+        `${API}/api/admin/updatetodo/${todoId}`,
         {
           workspaceName,
           username,

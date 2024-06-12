@@ -11,6 +11,7 @@ export const ContextAPI = ({ children }) => {
   const [allcontacts, setallcontacts] = useState([]);
   const token = localStorage.getItem("token");
   const [userData, setuserData] = useState({});
+  const API = import.meta.env.VITE_BACKEND_SITE_URL;
 
   // logout function..............................
   const logout = () => {
@@ -21,7 +22,7 @@ export const ContextAPI = ({ children }) => {
   // get all users for admin...................
   const getAllusersforAdmin = () => {
     axios
-      .get(`${window.location.origin}/api/admin/allusers`, {
+      .get(`${API}/api/admin/allusers`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${token}`,
@@ -42,7 +43,7 @@ export const ContextAPI = ({ children }) => {
   // get all todos for admin...................
   const getalltodosForAdmin = () => {
     axios
-      .get(`${window.location.origin}/api/admin/alltodos`, {
+      .get(`${API}/api/admin/alltodos`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${token}`,
@@ -63,7 +64,7 @@ export const ContextAPI = ({ children }) => {
   // get all contacts for admin...................
   const getAllContacts = () => {
     axios
-      .get(`${window.location.origin}/api/admin/allcontacts`, {
+      .get(`${API}/api/admin/allcontacts`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${token}`,
@@ -84,7 +85,7 @@ export const ContextAPI = ({ children }) => {
   // delete all contacts from admin side...................
   const deletecontactsfromAdmin = (id) => {
     axios
-      .delete(`${window.location.origin}/api/admin/deletecontact/${id}`, {
+      .delete(`${API}/api/admin/deletecontact/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${token}`,
@@ -110,7 +111,7 @@ export const ContextAPI = ({ children }) => {
   // delete all users from admin side...................
   const deleteusersfromAdmin = (id) => {
     axios
-      .delete(`${window.location.origin}/api/admin/deleteuser/${id}`, {
+      .delete(`${API}/api/admin/deleteuser/${id}`, {
         headers: {
           Authorization: `token ${token}`,
         },
@@ -135,7 +136,7 @@ export const ContextAPI = ({ children }) => {
   // delete all todos from admin side...................
   const deleteTodosfromAdmin = (id) => {
     axios
-      .delete(`${window.location.origin}/api/admin/deletetodo/${id}`, {
+      .delete(`${API}/api/admin/deletetodo/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${token}`,
@@ -157,7 +158,7 @@ export const ContextAPI = ({ children }) => {
   // get current user data for edit profile........................
   const getUserData = () => {
     axios
-      .get(`${window.location.origin}/api/auth/user`, {
+      .get(`${API}/api/auth/user`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${token}`,
@@ -174,7 +175,7 @@ export const ContextAPI = ({ children }) => {
   // get current user all todoes............................
   const getAllTodo = () => {
     axios
-      .get(`${window.location.origin}/api/todo/alltodos`, {
+      .get(`${API}/api/todo/alltodos`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${token}`,
@@ -195,7 +196,7 @@ export const ContextAPI = ({ children }) => {
   // delete current user todoes..........................
   const deleteTodo = (id) => {
     axios
-      .delete(`${window.location.origin}/api/todo/delete/${id}`, {
+      .delete(`${API}/api/todo/delete/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `token ${token}`,
@@ -239,6 +240,7 @@ export const ContextAPI = ({ children }) => {
         deletecontactsfromAdmin,
         getalltodosForAdmin,
         getAllusersforAdmin,
+        API
       }}
     >
       {children}

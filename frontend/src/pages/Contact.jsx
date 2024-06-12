@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function Contact() {
-  const { userData,getUserData } = useAuth();
+  const { userData,getUserData,API } = useAuth();
   const token = localStorage.getItem("token");
   const [fullName, setfullName] = useState("")
   const [email, setemail] = useState("")
@@ -15,7 +15,7 @@ function Contact() {
   const formController = (e) => {
     e.preventDefault();
     axios
-      .post(`${window.location.origin}/api/contact/contact`,{
+      .post(`${API}/api/contact/contact`,{
         fullName,
         email,
         message

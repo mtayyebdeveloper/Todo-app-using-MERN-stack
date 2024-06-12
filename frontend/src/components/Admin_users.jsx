@@ -4,7 +4,13 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 function Admin_users() {
-  const { allusers, deleteusersfromAdmin, getAllusersforAdmin,getUserData } = useAuth();
+  const {
+    allusers,
+    deleteusersfromAdmin,
+    getAllusersforAdmin,
+    getUserData,
+    API,
+  } = useAuth();
   const token = localStorage.getItem("token");
   const [open, setopen] = useState(false);
   const [userId, setuserId] = useState("");
@@ -22,14 +28,12 @@ function Admin_users() {
     e.preventDefault();
     axios
       .patch(
-        `${
-          window.location.origin
-        }/api/admin/updateuser/${userId}`,
+        `${API}/api/admin/updateuser/${userId}`,
         {
           fullName,
           username,
           email,
-          password
+          password,
         },
         {
           headers: {
@@ -68,7 +72,11 @@ function Admin_users() {
             onSubmit={formSubmit}
             className="w-11/12 md:w-3/4 mx-auto mt-10 text-white"
           >
-            <i className="fa-solid fa-xmark absolute top-5 right-5 text-3xl text-white cursor-pointer" onClick={() => setopen(!open)} aria-hidden="true"></i>
+            <i
+              className="fa-solid fa-xmark absolute top-5 right-5 text-3xl text-white cursor-pointer"
+              onClick={() => setopen(!open)}
+              aria-hidden="true"
+            ></i>
             <h1 className="text-3xl text-center font-bold">Update User</h1>
             <div className="mb-5">
               <label
